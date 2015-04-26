@@ -115,46 +115,30 @@ function remove(competency) {
 }
 
 
-var data = {
-  labels: [
-    'User1', 'User2', 'User3',
-    'User4', 'User5', 'User6'
-  ],
-  series: [
-    {
-      label: 'C++',
-      values: [4, 8, 15, 16, 23, 42]
-    },
-    {
-      label: 'JavaScript',
-      values: [12, 43, 22, 11, 73, 25]
-    },
-    {
-      label: 'Spark',
-      values: [31, 28, 14, 8, 15, 21]
-    },]
-};
+d3.json("/s/offline.json", function(error, data) {
+  update(data)
+})
 
-update(data);
 function update(data) {
+  var nbrCompetencies = data[0].competencies.length;
   var chartWidth       = 300,
       barHeight        = 20,
-      groupHeight      = barHeight * data.series.length,
+      groupHeight      = barHeight * nbrCompetencies,
       gapBetweenGroups = 10,
       spaceForLabels   = 150,
       spaceForLegend   = 150;
 
   // Zip the series data together (first values, second values, etc.)
   var zippedData = [];
-  for (var i=0; i<data.labels.length; i++) {
-    for (var j=0; j<data.series.length; j++) {
-      zippedData.push(data.series[j].values[i]);
+  for (var i=0; i<data.length; i++) {
+    for (var j=0; j<nbrCompetencies; j++) {
+      zippedData.push(data[j].competencies[i].score);
     }
   }
 
   // Color scale
   var color = d3.scale.category20();
-  var chartHeight = barHeight * zippedData.length + gapBetweenGroups * data.labels.length;
+  var chartHeight = barHeight * zippedData.length + gapBetweenGroups * data.length;
 
   var x = d3.scale.linear()
       .domain([0, d3.max(zippedData)])
@@ -179,12 +163,12 @@ function update(data) {
       .data(zippedData)
       .enter().append("g")
       .attr("transform", function(d, i) {
-        return "translate(" + spaceForLabels + "," + (i * barHeight + gapBetweenGroups * (0.5 + Math.floor(i/data.series.length))) + ")";
+        return "translate(" + spaceForLabels + "," + (i * barHeight + gapBetweenGroups * (0.5 + Math.floor(i/nbrCompetencies))) + ")";
       });
 
   // Create rectangles of the correct width
   bar.append("rect")
-      .attr("fill", function(d,i) { return color(i % data.series.length); })
+      .attr("fill", function(d,i) { return color(i % nbrCompetencies); })
       .attr("class", "bar")
       .attr("width", x)
       .attr("height", barHeight - 1);
@@ -197,15 +181,15 @@ function update(data) {
       .attr("dy", ".35em")
       .text(function(d) { return d; });
 
-  // Draw labels
+  // Draw users
   bar.append("text")
       .attr("class", "label")
       .attr("x", function(d) { return - 10; })
       .attr("y", groupHeight / 2)
       .attr("dy", ".35em")
       .text(function(d,i) {
-        if (i % data.series.length === 0)
-          return data.labels[Math.floor(i/data.series.length)];
+        if (i % nbrCompetencies === 0)
+          return data[Math.floor(i/nbrCompetencies)].id;
         else
           return ""});
 
@@ -219,7 +203,7 @@ function update(data) {
       legendSpacing  = 4;
 
   var legend = chart.selectAll('.legend')
-      .data(data.series)
+      .data(data[0].competencies)
       .enter()
       .append('g')
       .attr('transform', function (d, i) {
@@ -240,7 +224,7 @@ function update(data) {
       .attr('class', 'legend')
       .attr('x', legendRectSize + legendSpacing)
       .attr('y', legendRectSize - legendSpacing)
-      .text(function (d) { return d.label; });
+      .text(function (d) { return d.text; });
 }
     
 </script>

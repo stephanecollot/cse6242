@@ -13,7 +13,7 @@ class Competency(object):
   def __init__(self, text, score):
     #logger.info('User' + str(id))
     self.text = text
-    self.score = 0
+    self.score = score
     self.removeHtml = '<a href="#" onClick="remove('+str(text)+'); return false;"><img src="s/remove.png" alt="Remove" class="removeBtn" ></a>'
     
   def toJSON(self):
