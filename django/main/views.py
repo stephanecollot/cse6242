@@ -5,6 +5,7 @@ from django.shortcuts import render_to_response
 from django.conf import settings
 import json
 from user import User, Competency
+import sqlite3
 
 import logging
 logger = logging.getLogger(__name__)
@@ -76,3 +77,24 @@ def chart(request):
   response = HttpResponse(result_json, content_type='application/json')
   response.__setitem__("Access-Control-Allow-Origin", "*") #enables CORS (required to use json)
   return response
+
+def userprofile(uid):
+  db = sqlite3.connect("Sover.db")
+  x = db.execute("select tag, score from tagscore where userid ="+uid+" limit 7")
+  f = {}
+  for i in x:
+    tag, score = i
+    f[tag] = score
+  g = {}
+  g['radar'] = f
+  x = db.execute("select * from user where uid ="+ uid)
+  h={}
+  for i in x:
+    uid, name, date, location, rep = i
+  h['uid'] = uid
+  h['name'] = name
+  h['date'] = date
+  h['location'] = location
+  h['rep'] = rep
+  g['profile'] = h
+  print g
