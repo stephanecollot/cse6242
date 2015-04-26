@@ -52,6 +52,15 @@ def remove(request, text):
     
   print request.session['competencies']
   
+  result = []
+  result_json = json.dumps(result, default=lambda o: o.__dict__)
+  response = HttpResponse(result_json, content_type='application/json')
+  response.__setitem__("Access-Control-Allow-Origin", "*") #enables CORS (required to use json)
+  return response
+  
+def chart(request):
+  print "Received chart request "
+  
   user1 = User(1)
   user1.competencies.append(Competency('c++',11))
   user1.competencies.append(Competency('java',12))
