@@ -202,6 +202,20 @@ function update(data) {
           return data[Math.floor(i/nbrCompetencies)].id;
         else
           return ""});
+          
+  var sizeProfile = 50
+  bar.append("svg:image")
+      .attr("x", function(d) { return - 10 -sizeProfile*2; })
+      .attr("y", groupHeight / 2  - sizeProfile/2)
+      .attr('width', sizeProfile)
+      .attr('height', sizeProfile)
+      .style("cursor","pointer")
+      .attr("xlink:href",function(d,i) {
+        if (i % nbrCompetencies === 0)
+          return "https://secure.gravatar.com/avatar/"+data[Math.floor(i/nbrCompetencies)].hash;
+        else
+          return ""});
+  
 
   chart.append("g")
         .attr("class", "y axis")
