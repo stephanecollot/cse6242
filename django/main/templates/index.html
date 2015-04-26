@@ -1,25 +1,32 @@
 <!DOCTYPE html>
-<head>
+<html style=""><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><meta charset="utf-8">
 <style>
+
+body {
+  font: 13px sans-serif;
+}
+
+
 /*
-.chart rect {
+#chart rect {
   fill: steelblue;
 }
 */
-.chart .legend {
+#chart .legend {
   fill: black;
   font: 14px sans-serif;
   text-anchor: start;
   font-size: 12px;
 }
 
-.chart text {
+#chart text {
   fill: white;
   font: 10px sans-serif;
   text-anchor: end;
 }
 
-.chart .label {
+#chart .label {
   fill: black;
   font: 14px sans-serif;
   text-anchor: end;
@@ -36,17 +43,20 @@
   shape-rendering: crispEdges;
 }
 
+.removeBtn line {
+  width:20px;
+  height:20px;
+}
+
+
 
 </style>
-
 <link rel="stylesheet" href="//rawgithub.com/Caged/d3-tip/master/examples/example-styles.css">
 
-<title>Searching Stackoverflow data</title>
+<title>Searching Stack</title>
 </head>
 
 <body>
-
-<INPUT TYPE = "TEXT" />
 <script type="text/javascript" src="s/d3/d3.v3.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="s/d3/colorbrewer.js" charset="utf-8"></script>
 <script type="text/javascript" src="s/d3/d3-tip.js" charset="utf-8"></script>
@@ -54,10 +64,11 @@
 <div id="chart"></div>
 
 <script>
+
 var data = {
   labels: [
-    'poojitha', 'stephan', 'jason',
-    'polo', 'chau', 'other S'
+    'resilience', 'maintainability', 'accessibility',
+    'uptime', 'functionality', 'impact'
   ],
   series: [
     {
@@ -88,6 +99,7 @@ for (var i=0; i<data.labels.length; i++) {
     zippedData.push(data.series[j].values[i]);
   }
 }
+
 // Color scale
 var color = d3.scale.category20();
 var chartHeight = barHeight * zippedData.length + gapBetweenGroups * data.labels.length;
@@ -106,7 +118,7 @@ var yAxis = d3.svg.axis()
     .orient("left");
 
 // Specify the chart area and dimensions
-var chart = d3.select("#chart")
+var chart = d3.select("#chart").append("svg")
     .attr("width", spaceForLabels + chartWidth + spaceForLegend)
     .attr("height", chartHeight);
 
@@ -124,6 +136,7 @@ bar.append("rect")
     .attr("class", "bar")
     .attr("width", x)
     .attr("height", barHeight - 1);
+
 // Add text label in bar
 bar.append("text")
     .attr("x", function(d) { return x(d) - 3; })
@@ -152,6 +165,7 @@ chart.append("g")
 // Draw legend
 var legendRectSize = 18,
     legendSpacing  = 4;
+
 var legend = chart.selectAll('.legend')
     .data(data.series)
     .enter()
