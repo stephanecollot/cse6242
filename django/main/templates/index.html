@@ -50,6 +50,14 @@ body {
  margin-left:20px;
 }
 
+#filter {
+ margin-top:20px;
+ margin-right:20px;
+ margin-bottom:20px;
+ margin-left:20px;
+ font-size: 18px;
+}
+
 
 </style>
 <link rel="stylesheet" href="//rawgithub.com/Caged/d3-tip/master/examples/example-styles.css">
@@ -68,7 +76,14 @@ body {
 <div id="header">
   <h1>Searching Stack</h1>
   <input type="text" name="competency" id="competency" size="100" placeholder="Add a competency"> <button type="addBtn" onclick="add()">Add</button> 
+  
+  <div id="filter">
+    <img src="s/filter.png" alt="Filter" style="width:20px;height:20px"> Age
+    &nbsp;&nbsp;&nbsp;
+    <img src="s/filter.png" alt="Filter" style="width:20px;height:20px"> Badges
+  </div>
 </div>
+
 
 <div id="center">
   <div id="chart"></div>

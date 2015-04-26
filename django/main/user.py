@@ -23,6 +23,7 @@ class User(object):
   def __init__(self, id):
     #logger.info('User' + str(id))
     self.id = id
+    self.name = ""
     self.competencies = []
     
   def toJSON(self):
