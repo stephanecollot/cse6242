@@ -48,6 +48,12 @@ body {
   height:20px;
 }
 
+#header {
+ margin-top:20px;
+ margin-right:20px;
+ margin-bottom:20px;
+ margin-left:20px;
+}
 
 
 </style>
@@ -57,30 +63,64 @@ body {
 </head>
 
 <body>
+<script type="text/javascript" src="s/jquery.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="s/d3/d3.v3.min.js" charset="utf-8"></script>
 <script type="text/javascript" src="s/d3/colorbrewer.js" charset="utf-8"></script>
 <script type="text/javascript" src="s/d3/d3-tip.js" charset="utf-8"></script>
 
-<div id="chart"></div>
+
+
+<div id="header">
+  <h1>Searching Stack</h1>
+  <input type="text" name="competency" id="competency" size="100" placeholder="Add a competency"> <button type="addBtn" onclick="add()">Add</button> 
+</div>
+
+<div id="center">
+  <div id="chart"></div>
+</div>
 
 <script>
 
+// Communication with backend:
+function add() {
+  var competency = $("#competency").val()
+  
+  $.ajax({
+    url: "add/"+competency,
+    context: document.body
+  }).done(function() {
+    console.log("done Add")
+  });
+  
+}
+function remove(competency) {
+  
+  $.ajax({
+    url: "remove/"+competency,
+    context: document.body
+  }).done(function() {
+    console.log("done Remove")
+  });
+  
+}
+
+
 var data = {
   labels: [
-    'resilience', 'maintainability', 'accessibility',
-    'uptime', 'functionality', 'impact'
+    'User1', 'User2', 'User3',
+    'User4', 'User5', 'User6'
   ],
   series: [
     {
-      label: '2012',
+      label: 'C++',
       values: [4, 8, 15, 16, 23, 42]
     },
     {
-      label: '2013',
+      label: 'JavaScript',
       values: [12, 43, 22, 11, 73, 25]
     },
     {
-      label: '2014',
+      label: 'Spark',
       values: [31, 28, 14, 8, 15, 21]
     },]
 };
