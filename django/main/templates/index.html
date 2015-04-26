@@ -200,7 +200,8 @@ function update(data) {
 
   // Draw legend
   var legendRectSize = 18,
-      legendSpacing  = 4;
+      legendSpacing  = 4,
+      offsetImage = 25;
 
   var legend = chart.selectAll('.legend')
       .data(data[0].competencies)
@@ -209,7 +210,7 @@ function update(data) {
       .attr('transform', function (d, i) {
           var height = legendRectSize + legendSpacing;
           var offset = -gapBetweenGroups/2;
-          var horz = spaceForLabels + chartWidth + 40 - legendRectSize;
+          var horz = spaceForLabels + chartWidth + 40 - legendRectSize + offsetImage;
           var vert = i * height - offset;
           return 'translate(' + horz + ',' + vert + ')';
       });
@@ -225,6 +226,17 @@ function update(data) {
       .attr('x', legendRectSize + legendSpacing)
       .attr('y', legendRectSize - legendSpacing)
       .text(function (d) { return d.text; });
+
+  legend.append("svg:image")
+        .attr('x',-25)
+        .attr('y',0)
+        .attr('width', 20)
+        .attr('height', 20)
+        .style("cursor","pointer")
+        .attr("xlink:href","s/remove.png")
+        .on("click", function(d) {
+          remove(d.text)
+        });
 }
     
 </script>

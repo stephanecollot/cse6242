@@ -3,13 +3,11 @@
     "competencies": [
       {
         "text": "c++",
-        "score": 11,
-        "removeHtml": "<a href=\"#\" onClick=\"remove(c++); return false;\"><img src=\"s/remove.png\" alt=\"Remove\" class=\"removeBtn\" ></a>"
+        "score": 11
       },
       {
         "text": "java",
-        "score": 12,
-        "removeHtml": "<a href=\"#\" onClick=\"remove(java); return false;\"><img src=\"s/remove.png\" alt=\"Remove\" class=\"removeBtn\" ></a>"
+        "score": 12
       }
     ],
     "id": 1
@@ -18,13 +16,11 @@
     "competencies": [
       {
         "text": "c++",
-        "score": 21,
-        "removeHtml": "<a href=\"#\" onClick=\"remove(c++); return false;\"><img src=\"s/remove.png\" alt=\"Remove\" class=\"removeBtn\" ></a>"
+        "score": 21
       },
       {
         "text": "java",
-        "score": 25,
-        "removeHtml": "<a href=\"#\" onClick=\"remove(java); return false;\"><img src=\"s/remove.png\" alt=\"Remove\" class=\"removeBtn\" ></a>"
+        "score": 25
       }
     ],
     "id": 2

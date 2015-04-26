@@ -14,7 +14,6 @@ class Competency(object):
     #logger.info('User' + str(id))
     self.text = text
     self.score = score
-    self.removeHtml = '<a href="#" onClick="remove('+str(text)+'); return false;"><img src="s/remove.png" alt="Remove" class="removeBtn" ></a>'
     
   def toJSON(self):
     return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
