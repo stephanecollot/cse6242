@@ -79,7 +79,8 @@ def chart(request):
   return response
 
 def userprofile(uid):
-  db = sqlite3.connect("Sover.db")
+  db = sqlite3.connect("/main/Sover.db")
+  print db.iterdump()
   x = db.execute("select tag, score from tagscore where userid ="+uid+" limit 7")
   f = {}
   for i in x:
@@ -98,3 +99,6 @@ def userprofile(uid):
   h['rep'] = rep
   g['profile'] = h
   print g
+
+
+userprofile('1')
