@@ -101,12 +101,12 @@ function add() {
     context: document.body
   }).done(function() {
     console.log("done Add")
+    d3.json("/chart", function(error, data) {
+      d3.select("#chart").select("svg").remove()
+      update(data)
+    })
   });
   
-  d3.json("/chart", function(error, data) {
-    d3.select("#chart").select("svg").remove()
-    update(data)
-  })
 }
 function remove(competency) {
   $("#loader").css("visibility", "visible");
@@ -115,12 +115,12 @@ function remove(competency) {
     context: document.body
   }).done(function() {
     console.log("done Remove")
+    d3.json("/chart", function(error, data) {
+      d3.select("#chart").select("svg").remove()
+      update(data)
+    })
   });
   
-  d3.json("/chart", function(error, data) {
-    d3.select("#chart").select("svg").remove()
-    update(data)
-  })
 }
 function clean() {
   $("#loader").css("visibility", "visible");
@@ -129,12 +129,12 @@ function clean() {
     context: document.body
   }).done(function() {
     console.log("done Remove")
+    d3.json("/chart", function(error, data) {
+      d3.select("#chart").select("svg").remove()
+      update(data)
+    })
   });
   
-  d3.json("/chart", function(error, data) {
-    d3.select("#chart").select("svg").remove()
-    update(data)
-  })
 }
 
 function profile(id) {

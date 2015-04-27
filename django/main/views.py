@@ -89,7 +89,7 @@ def chart(request):
       else:
         where = where+ 'tag = "'+comp.lower()+'" or '
       j = j-1
-    limit = len(request.session['competencies']) * 500
+    limit = len(request.session['competencies']) * 100000
     query = "SELECT * FROM tagscore indexed by utag WHERE "+where+" GROUP BY userid, tag ORDER BY score DESC LIMIT "+str(limit)
     print "PLEASE WAIT FOR: " + query
     sqlcall = db.execute(query)
@@ -102,8 +102,8 @@ def chart(request):
     print "PLEASE WAIT FOR: formatting"
     users = {}
     for row in rows:
-      if ca[row[0]] == len(request.session['competencies']):
-        id = row[0]
+      id = row[0]
+      if ca[id] == len(request.session['competencies']):
         comp = row[1]
         score = row[2]
         if id in users:
@@ -113,7 +113,7 @@ def chart(request):
           user = User(id, request.session['competencies'])
           user.competencies[comp] = score
           user.globalScore += score
-          user.getInfo()
+          #user.getInfo()
           users[id] = user
           
     ## Sort by global score.
@@ -124,6 +124,15 @@ def chart(request):
     result = {}
     result['users'] = usersList
     result['competencies'] = request.session['competencies']
+    
+    if len(usersList) == 0:
+      nullUser = User(0, request.session['competencies'])
+      nullUser.name = "Nobody"
+      nullUser.hash = ""
+      result = {}
+      result['users'] = []
+      result['users'].append(nullUser)
+      result['competencies'] = request.session['competencies']
     
   else:
     result = {}
