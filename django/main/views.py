@@ -63,9 +63,29 @@ def remove(request, text):
   
 def chart(request):
   print "Received chart request "
-  
-  connection()
-  
+  print request
+  db = sqlite3.connect("Sover.db")
+  x = ""
+  j = len(request)
+  for i in request:
+    if j==0:
+      break
+    elif j ==1:
+      x = x+ 'tag like "'+i+'"'
+    else:
+      x = x+ 'tag like "'+i+'" or '
+    j = j-1
+  num = len(request) * 20
+  y = db.execute("select * from tagscore where "+x+" group by userid, tag limit "+str(num))
+  users = {}
+  foo = []
+  for i in y:
+    foo.append(i)
+
+  for i in range foo:
+    #this is the list which has tuples in the form of (userid,tag,score)
+
+
   user1 = User(1)
   user1.competencies.append(Competency('c++',11))
   user1.competencies.append(Competency('java',12))
