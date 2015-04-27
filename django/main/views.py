@@ -78,7 +78,7 @@ def chart(request):
   
   if len(request.session['competencies']) > 0:
   
-    db = sqlite3.connect("main/Sover.db")
+    db = sqlite3.connect("main/Stack.db")
     where = ""
     j = len(request.session['competencies'])
     for comp in request.session['competencies']:
@@ -130,7 +130,7 @@ def chart(request):
 def userprofile(request, uid):
   print "Received UserProfile request: " + uid
 
-  db = sqlite3.connect("main/Sover.db")
+  db = sqlite3.connect("main/Stack.db")
   print db.iterdump()
   x = db.execute("select tag, score from tagscore where userid ="+uid+" limit 7")
   f = {}
