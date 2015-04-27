@@ -85,12 +85,12 @@ def chart(request):
       if j==0:
         break
       elif j ==1:
-        where = where+ 'tag like "'+comp+'"'
+        where = where+ 'tag = "'+comp.lower()+'"'
       else:
-        where = where+ 'tag like "'+comp+'" or '
+        where = where+ 'tag = "'+comp.lower()+'" or '
       j = j-1
-    limit = len(request.session['competencies']) * 10
-    query = "SELECT * FROM tagscore WHERE "+where+" GROUP BY userid, tag ORDER BY score DESC LIMIT "+str(limit)
+    limit = len(request.session['competencies']) * 50
+    query = "SELECT * FROM tagscore indexed by utag WHERE "+where+" GROUP BY userid, tag ORDER BY score DESC LIMIT "+str(limit)
     print query
     rows = db.execute(query)
     
@@ -133,7 +133,7 @@ def userprofile(request, uid):
     f[tag] = score
   g = {}
   g['radar'] = f
-  x = db.execute("select * from user where uid ="+ uid)
+  x = db.execute("select * from user indexed by usr where uid ="+ uid)
   h={}
   uid = name = date = location = rep = ""
   for i in x:
