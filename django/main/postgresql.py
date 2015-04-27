@@ -2,7 +2,7 @@ from django.conf import settings
 import json
 from user import User
 import psycopg2
-from db import *
+#from db import * #db.py file for ID
 
 import logging
 logger = logging.getLogger(__name__)

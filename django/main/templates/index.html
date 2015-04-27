@@ -164,7 +164,7 @@ function update(data) {
   }
 
   // Color scale
-  var color = d3.scale.category20();
+  var color = d3.scale.ordinal().range(colorbrewer.RdYlBu[4]);
   var chartHeight = barHeight * zippedData.length + gapBetweenGroups * data.users.length;
 
   var x = d3.scale.linear()
