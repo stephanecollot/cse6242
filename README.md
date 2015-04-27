@@ -2,6 +2,11 @@
 
 
 ## Installation
+Please download the data set here: 
+https://www.dropbox.com/s/fkxq3czhi6uxmy7/Stack.db?dl=0
+And save the file ```Stack.db``` in ```/django/main/``` directory
+
+
 ```
 pip install django
 pip install djangorestframework
@@ -10,7 +15,7 @@ pip install djangorestframework
 
 ## Lauch
 
-Launch command in /django directory:
+Launch command in ```/django``` directory:
 ```
 python manage.py runserver
 ```
