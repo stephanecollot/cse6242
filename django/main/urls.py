@@ -9,6 +9,7 @@ urlpatterns = patterns('',
   url(r'^remove/(?P<text>.*)$', views.remove, name='remove'),
   url(r'^chart$', views.chart, name='chart'),
   url(r'^userprofile/(?P<uid>.*)$', views.userprofile, name='userprofile'),
+  url(r'^clean$', views.clean, name='clean'),
 )
 
 urlpatterns += patterns('',

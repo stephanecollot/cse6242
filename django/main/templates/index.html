@@ -75,7 +75,8 @@ body {
 
 <div id="header">
   <h1>Searching Stack <img src="s/loader.gif" alt="Loading" style="width:30px;height:30px" id="loader"></h1> 
-  <input type="text" name="competency" id="competency" size="100" placeholder="Add a competency"> <button type="addBtn" onclick="add()">Add</button> 
+  <input type="text" name="competency" id="competency" size="100" placeholder="Add a competency"> <button type="addBtn" onclick="add()">Add</button>
+  &nbsp;&nbsp;&nbsp;<button type="clearBtn" onclick="clean()">Clean</button>
   
   <div id="filter">
     <img src="s/filter.png" alt="Filter" style="width:20px;height:20px"> Age
@@ -111,6 +112,20 @@ function remove(competency) {
   $("#loader").css("visibility", "visible");
   $.ajax({
     url: "remove/"+competency,
+    context: document.body
+  }).done(function() {
+    console.log("done Remove")
+  });
+  
+  d3.json("/chart", function(error, data) {
+    d3.select("#chart").select("svg").remove()
+    update(data)
+  })
+}
+function clean() {
+  $("#loader").css("visibility", "visible");
+  $.ajax({
+    url: "clean",
     context: document.body
   }).done(function() {
     console.log("done Remove")

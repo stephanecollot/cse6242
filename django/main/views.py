@@ -61,6 +61,18 @@ def remove(request, text):
   response.__setitem__("Access-Control-Allow-Origin", "*") #enables CORS (required to use json)
   return response
   
+def clean(request):
+  print "Received CLEAN request: "
+  
+  request.session['competencies'] = []
+  request.session.modified = True
+
+  result = []
+  result_json = json.dumps(result, default=lambda o: o.__dict__)
+  response = HttpResponse(result_json, content_type='application/json')
+  response.__setitem__("Access-Control-Allow-Origin", "*") #enables CORS (required to use json)
+  return response
+  
 def chart(request):
   print "Received chart request "
   
