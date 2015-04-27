@@ -96,7 +96,7 @@ def chart(request):
     rows = []
     for i in sqlcall:
       rows.append(i)
-    ca = Counter(rows)
+    ca = Counter([i[0] for i in rows ])
 
 
     users = {}
