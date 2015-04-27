@@ -5,7 +5,7 @@ from django.shortcuts import render_to_response
 from django.conf import settings
 import json
 from user import User
-from postgresql import connection
+#from postgresql import connection
 import sqlite3
 from collections import Counter
 
@@ -100,7 +100,7 @@ def chart(request):
 
 
     users = {}
-    for row in rows:
+    for row in sqlcall:
       if ca[row[0]] == len(request.session['competencies']):
         id = row[0]
         comp = row[1]
