@@ -132,7 +132,7 @@ function update(data) {
       barHeight        = 30,
       groupHeight      = barHeight * nbrCompetencies,
       gapBetweenGroups = 15,
-      spaceForLabels   = 150,
+      spaceForLabels   = 300,
       spaceForLegend   = 150;
 
   // Zip the series data together (first values, second values, etc.)
@@ -197,13 +197,13 @@ function update(data) {
       .attr("dy", ".35em")
       .text(function(d,i) {
         if (i % nbrCompetencies === 0)
-          return data.users[Math.floor(i/nbrCompetencies)].id;
+          return data.users[Math.floor(i/nbrCompetencies)].name + ' [' + data.users[Math.floor(i/nbrCompetencies)].id + ']';
         else
           return ""});
           
   var sizeProfile = 50
   bar.append("svg:image")
-      .attr("x", function(d) { return - 10 -sizeProfile*2; })
+      .attr("x", function(d) { return - 10 -250; })
       .attr("y", groupHeight / 2  - sizeProfile/2)
       .attr('width', sizeProfile)
       .attr('height', sizeProfile)

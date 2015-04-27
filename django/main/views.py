@@ -92,6 +92,7 @@ def chart(request):
       else:
         user = User(id, request.session['competencies'])
         user.competencies[comp] = score
+        user.getInfo()
         users[id] = user
     
     result = {}
