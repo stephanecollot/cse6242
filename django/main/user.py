@@ -19,6 +19,7 @@ class User(object):
     self.email = "stephane.collot@gmail.com"
     self.hash = md5(self.email.strip().lower()).hexdigest() #use for profile picture
     self.competencies = {}
+    self.globalScore = 0
     for comp in competencies:
       self.competencies[comp] = 0
       
