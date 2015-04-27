@@ -5,7 +5,7 @@ from django.shortcuts import render_to_response
 from django.conf import settings
 import json
 from user import User
-from postgresql import connection
+#from postgresql import connection
 import sqlite3
 from collections import Counter
 
