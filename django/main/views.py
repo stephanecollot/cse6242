@@ -5,6 +5,7 @@ from django.shortcuts import render_to_response
 from django.conf import settings
 import json
 from user import User, Competency
+from postgresql import connection
 
 import logging
 logger = logging.getLogger(__name__)
@@ -60,6 +61,8 @@ def remove(request, text):
   
 def chart(request):
   print "Received chart request "
+  
+  connection()
   
   user1 = User(1)
   user1.competencies.append(Competency('c++',11))
