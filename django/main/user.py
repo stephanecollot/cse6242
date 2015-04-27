@@ -28,6 +28,8 @@ class User(object):
     
     for row in rows:
       self.name = row[0]
+      self.email = self.name+"@gmail.com" # Try to fake an email
+      self.hash = md5(self.email.strip().lower()).hexdigest()
     
   def toJSON(self):
     return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
