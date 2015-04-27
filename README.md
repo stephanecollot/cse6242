@@ -4,6 +4,7 @@
 ## Installation
 Please download the data set here: 
 https://www.dropbox.com/s/fkxq3czhi6uxmy7/Stack.db?dl=0
+
 And save the file ```Stack.db``` in ```/django/main/``` directory
 
 
@@ -13,7 +14,7 @@ pip install djangorestframework
 ```
 
 
-## Lauch
+## Launch
 
 Launch command in ```/django``` directory:
 ```
