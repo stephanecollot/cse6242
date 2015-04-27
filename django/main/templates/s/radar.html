@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><meta charset="utf-8">
+<title>Radar chart</title>
+<script type="text/javascript" src="jquery.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="d3/d3.v3.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="d3/colorbrewer.js" charset="utf-8"></script>
+<script type="text/javascript" src="d3/d3-tip.js" charset="utf-8"></script>
+<script type="text/javascript" src="d3/RadarChart.js" charset="utf-8"></script>
+<style>
+body {
+  /*overflow: hidden;*/
+  margin: 0;
+  font-size: 20px;
+  font-family: "Helvetica Neue", Helvetica;
+}
+div {
+  display:inline-block;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  font-family: sans-serif;
+  font-size: 11px;
+}
+
+.y1 {
+  fill: white;
+  stroke: orange;
+  stroke-width: 1.5px;
+}
+
+.y2 {
+  fill: white;
+  stroke: red;
+  stroke-width: 1.5px;
+}
+
+.y3 {
+  fill: white;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.line {
+  fill: none;
+  stroke-width: 1.5px;
+}
+
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  width: 50px;
+  height: 10px;
+  padding: 5px;
+  font: 10px sans-serif;
+  background: whiteSmoke;
+  border: solid 1px #aaa;
+  pointer-events: none;
+  box-shadow: 2px 2px 1px #888;
+}
+
+.legend {
+  padding: 5px;
+  font: 10px sans-serif;
+  background: yellow;
+  box-shadow: 2px 2px 1px #888;
+}
+
+.title {
+  
+}
+</style>
+</head>
+<body>
+
+  <div id="body" style="margin-top:5px; margin-left:15px">
+    <div id="profile" style="vertical-align: top; width: 300px">
+      <h1 id="name"></h1>
+      Location: <div id="location"></div> <br>
+      Reply: <div id="rep"></div><br>
+      Date: <div id="date"></div><br>
+    </div>
+    <div id="chart"></div>
+  </div>
+	
+<script>
+
+// Get URL parameter
+var QueryString = function () {
+  // This function is anonymous, is executed immediately and 
+  // the return value is assigned to QueryString!
+  var query_string = {};
+  var query = window.location.search.substring(1);
+  var vars = query.split("&");
+  for (var i=0;i<vars.length;i++) {
+    var pair = vars[i].split("=");
+        // If first entry with this name
+    if (typeof query_string[pair[0]] === "undefined") {
+      query_string[pair[0]] = pair[1];
+        // If second entry with this name
+    } else if (typeof query_string[pair[0]] === "string") {
+      var arr = [ query_string[pair[0]], pair[1] ];
+      query_string[pair[0]] = arr;
+        // If third or later entry with this name
+    } else {
+      query_string[pair[0]].push(pair[1]);
+    }
+  } 
+    return query_string;
+} ();
+
+
+
+var w = 300;
+var h = 400;
+var padding = 0;
+
+var colorscale = d3.scale.ordinal()
+        .range(colorbrewer.Dark2[5]);
+
+//Legend titles
+var LegendOptions = [];
+
+//Options for the Radar chart, other than default
+var mycfg = {
+  w: w,
+  h: h,
+  maxValue: 1.0,
+  levels: 5,
+  color: colorscale,
+  ExtraWidthX: 150,
+  TranslateY: 0,
+  ExtraWidthY: 70
+}
+
+d3.json("http://127.0.0.1:8000/userprofile/"+QueryString.id, function(error, data) {
+
+  max = 0
+  for(comp in data.radar) {
+    if ( data.radar[comp] > max )
+      max = data.radar[comp]
+  }
+  var linearScale = d3.scale.linear()
+                            .domain([0,max])
+                            .range([0,1]);
+
+  dataset = []
+  datacomp = []
+  for(comp in data.radar) {
+    //LegendOptions.push({Country:d['Country'],Song:d['Song']})
+    datacomp.push({axis:comp,value:linearScale(data.radar[comp])})
+  }
+  dataset.push(datacomp)
+
+  //Call function to draw the Radar chart
+  //Will expect that data is in %'s
+  RadarChart.draw("#chart", dataset, mycfg);
+
+
+  var svg = d3.select('#body')
+    .selectAll('svg')
+    .append('svg')
+    .attr("width", w+300)
+    .attr("height", h)
+
+  //Create the title for the legend
+  var text = svg.append("text")
+    .attr("class", "title")
+    .attr('transform', 'translate(90,0)') 
+    .attr("x", w/2)
+    .attr("y", 15)
+    .attr("font-size", "16px")
+    .attr("fill", "#404040")
+    .attr("text-anchor", "middle")
+    .text("Radar chart");
+
+  $("#date").html(data.profile.date)
+  $("#rep").html(data.profile.rep)
+  $("#location").html(data.profile.location)
+  $("#name").html(data.profile.name)
+      
+})
+    
+</script>
+
+</body>
+</html>

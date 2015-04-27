@@ -135,6 +135,7 @@ def userprofile(request, uid):
   g['radar'] = f
   x = db.execute("select * from user where uid ="+ uid)
   h={}
+  uid = name = date = location = rep = ""
   for i in x:
     uid, name, date, location, rep = i
   h['uid'] = uid
