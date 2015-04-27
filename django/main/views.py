@@ -4,7 +4,7 @@ from django.template import Context, loader
 from django.shortcuts import render_to_response
 from django.conf import settings
 import json
-from user import User, Competency
+from user import User
 from postgresql import connection
 import sqlite3
 
@@ -63,39 +63,45 @@ def remove(request, text):
   
 def chart(request):
   print "Received chart request "
-  print request
-  db = sqlite3.connect("Sover.db")
-  x = ""
-  j = len(request)
-  for i in request:
-    if j==0:
-      break
-    elif j ==1:
-      x = x+ 'tag like "'+i+'"'
-    else:
-      x = x+ 'tag like "'+i+'" or '
-    j = j-1
-  num = len(request) * 20
-  y = db.execute("select * from tagscore where "+x+" group by userid, tag limit "+str(num))
-  users = {}
-  foo = []
-  for i in y:
-    foo.append(i)
-
-  for i in range foo:
-    #this is the list which has tuples in the form of (userid,tag,score)
-
-
-  user1 = User(1)
-  user1.competencies.append(Competency('c++',11))
-  user1.competencies.append(Competency('java',12))
-  user2 = User(2)
-  user2.competencies.append(Competency('c++',21))
-  user2.competencies.append(Competency('java',25))
   
-  result = []
-  result.append(user1)
-  result.append(user2)
+  if len(request.session['competencies']) > 0:
+  
+    db = sqlite3.connect("main/Sover.db")
+    where = ""
+    j = len(request.session['competencies'])
+    for comp in request.session['competencies']:
+      if j==0:
+        break
+      elif j ==1:
+        where = where+ 'tag like "'+comp+'"'
+      else:
+        where = where+ 'tag like "'+comp+'" or '
+      j = j-1
+    limit = len(request.session['competencies']) * 10
+    query = "select * from tagscore where "+where+" group by userid, tag limit "+str(limit)
+    print query
+    rows = db.execute(query)
+    
+    users = {}
+    for row in rows:
+      id = row[0]
+      comp = row[1]
+      score = row[2]
+      if id in users:
+        users[id].competencies[comp] = score
+      else:
+        user = User(id, request.session['competencies'])
+        user.competencies[comp] = score
+        users[id] = user
+    
+    result = {}
+    result['users'] = users.values()
+    result['competencies'] = request.session['competencies']
+    
+  else:
+    result = {}
+    result['users'] = []
+    result['competencies'] = []
   
   result_json = json.dumps(result, default=lambda o: o.__dict__)
   response = HttpResponse(result_json, content_type='application/json')

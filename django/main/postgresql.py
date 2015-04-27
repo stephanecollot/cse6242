@@ -1,6 +1,6 @@
 from django.conf import settings
 import json
-from user import User, Competency
+from user import User
 import psycopg2
 from db import *
 
