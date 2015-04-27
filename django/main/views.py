@@ -89,7 +89,7 @@ def chart(request):
       else:
         where = where+ 'tag = "'+comp.lower()+'" or '
       j = j-1
-    limit = len(request.session['competencies']) * 100000
+    limit = len(request.session['competencies']) * 10**(2+len(request.session['competencies']))
     query = "SELECT * FROM tagscore indexed by utag WHERE "+where+" GROUP BY userid, tag ORDER BY score DESC LIMIT "+str(limit)
     print "PLEASE WAIT FOR: " + query
     sqlcall = db.execute(query)
