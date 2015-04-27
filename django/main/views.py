@@ -6,6 +6,8 @@ from django.conf import settings
 import json
 from user import User, Competency
 from postgresql import connection
+import sqlite3
+
 
 import logging
 logger = logging.getLogger(__name__)
@@ -79,3 +81,34 @@ def chart(request):
   response = HttpResponse(result_json, content_type='application/json')
   response.__setitem__("Access-Control-Allow-Origin", "*") #enables CORS (required to use json)
   return response
+
+def userprofile(request, uid):
+  print "Received UserProfile request: " + uid
+
+  db = sqlite3.connect("main/Sover.db")
+  print db.iterdump()
+  x = db.execute("select tag, score from tagscore where userid ="+uid+" limit 7")
+  f = {}
+  for i in x:
+    tag, score = i
+    f[tag] = score
+  g = {}
+  g['radar'] = f
+  x = db.execute("select * from user where uid ="+ uid)
+  h={}
+  for i in x:
+    uid, name, date, location, rep = i
+  h['uid'] = uid
+  h['name'] = name
+  h['date'] = date
+  h['location'] = location
+  h['rep'] = rep
+  g['profile'] = h
+  print g
+ 
+  result = g
+  result_json = json.dumps(result, default=lambda o: o.__dict__)
+  response = HttpResponse(result_json, content_type='application/json')
+  response.__setitem__("Access-Control-Allow-Origin", "*") #enables CORS (required to use json)
+  return response
+
