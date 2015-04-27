@@ -100,7 +100,7 @@ def chart(request):
 
 
     users = {}
-    for row in sqlcall:
+    for row in rows:
       if ca[row[0]] == len(request.session['competencies']):
         id = row[0]
         comp = row[1]
