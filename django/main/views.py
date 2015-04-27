@@ -78,7 +78,7 @@ def chart(request):
         where = where+ 'tag like "'+comp+'" or '
       j = j-1
     limit = len(request.session['competencies']) * 10
-    query = "select * from tagscore where "+where+" group by userid, tag limit "+str(limit)
+    query = "SELECT * FROM tagscore WHERE "+where+" GROUP BY userid, tag ORDER BY score DESC LIMIT "+str(limit)
     print query
     rows = db.execute(query)
     

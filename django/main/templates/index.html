@@ -74,7 +74,7 @@ body {
 
 
 <div id="header">
-  <h1>Searching Stack</h1>
+  <h1>Searching Stack <img src="s/loader.gif" alt="Loading" style="width:30px;height:30px" id="loader"></h1> 
   <input type="text" name="competency" id="competency" size="100" placeholder="Add a competency"> <button type="addBtn" onclick="add()">Add</button> 
   
   <div id="filter">
@@ -94,7 +94,7 @@ body {
 // Communication with backend:
 function add() {
   var competency = $("#competency").val()
-  
+  $("#loader").css("visibility", "visible");
   $.ajax({
     url: "add/"+competency,
     context: document.body
@@ -106,10 +106,9 @@ function add() {
     d3.select("#chart").select("svg").remove()
     update(data)
   })
-  
 }
 function remove(competency) {
-  
+  $("#loader").css("visibility", "visible");
   $.ajax({
     url: "remove/"+competency,
     context: document.body
@@ -121,9 +120,7 @@ function remove(competency) {
     d3.select("#chart").select("svg").remove()
     update(data)
   })
-  
 }
-
 
 d3.json("/s/offline.json", function(error, data) {
   update(data)
@@ -143,7 +140,7 @@ function update(data) {
   for (var i=0; i<data.users.length; i++) {
     for (comp in data.users[i].competencies) {
       zippedData.push(data.users[i].competencies[comp]);
-      console.log(comp)
+      //console.log(comp)
     }
   }
 
@@ -262,6 +259,8 @@ function update(data) {
         .on("click", function(d) {
           remove(d)
         });
+        
+  $("#loader").css("visibility", "hidden");
 }
     
 </script>
