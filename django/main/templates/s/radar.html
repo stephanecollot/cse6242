@@ -137,8 +137,9 @@ var mycfg = {
   levels: 5,
   color: colorscale,
   ExtraWidthX: 150,
-  TranslateY: 0,
-  ExtraWidthY: 70
+  TranslateY: 50,
+  ExtraWidthY: 70,
+  //TranslateX: 70
 }
 
 d3.json("http://127.0.0.1:8000/userprofile/"+QueryString.id, function(error, data) {

@@ -6,6 +6,7 @@ from django.conf import settings
 import json
 from hashlib import md5
 import sqlite3
+import random, string
 
 import logging
 logger = logging.getLogger(__name__)
@@ -16,7 +17,7 @@ class User(object):
     #logger.info('User' + str(id))
     self.id = id
     self.name = ""
-    self.email = "stephane.collot@gmail.com"
+    self.email = ''.join(random.sample(string.letters, 5)).lower() + '@gmail.com' #try to guest an email
     self.hash = md5(self.email.strip().lower()).hexdigest() #use for profile picture
     self.competencies = {}
     self.globalScore = 0
