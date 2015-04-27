@@ -7,7 +7,7 @@ import json
 from user import User
 from postgresql import connection
 import sqlite3
-
+from collections import Counter
 
 import logging
 logger = logging.getLogger(__name__)
@@ -89,23 +89,29 @@ def chart(request):
       else:
         where = where+ 'tag = "'+comp.lower()+'" or '
       j = j-1
-    limit = len(request.session['competencies']) * 50
+    limit = len(request.session['competencies']) * 1000
     query = "SELECT * FROM tagscore indexed by utag WHERE "+where+" GROUP BY userid, tag ORDER BY score DESC LIMIT "+str(limit)
     print query
-    rows = db.execute(query)
-    
+    sqlcall = db.execute(query)
+    rows = []
+    for i in sqlcall:
+      rows.append(i)
+    ca = Counter(rows)
+
+
     users = {}
     for row in rows:
-      id = row[0]
-      comp = row[1]
-      score = row[2]
-      if id in users:
-        users[id].competencies[comp] = score
-      else:
-        user = User(id, request.session['competencies'])
-        user.competencies[comp] = score
-        user.getInfo()
-        users[id] = user
+      if ca[row[0]] == len(request.session['competencies']):
+        id = row[0]
+        comp = row[1]
+        score = row[2]
+        if id in users:
+          users[id].competencies[comp] = score
+        else:
+          user = User(id, request.session['competencies'])
+          user.competencies[comp] = score
+          user.getInfo()
+          users[id] = user
     
     result = {}
     result['users'] = users.values()
