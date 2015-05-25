@@ -237,6 +237,10 @@ function update(data) {
       .attr('width', sizeProfile)
       .attr('height', sizeProfile)
       .style("cursor","pointer")
+      .on("click", function(d,i) {
+        if (i % nbrCompetencies === 0)
+          profile(data.users[Math.floor(i/nbrCompetencies)].id);
+      })
       .attr("xlink:href",function(d,i) {
         if (i % nbrCompetencies === 0)
           return "https://secure.gravatar.com/avatar/"+data.users[Math.floor(i/nbrCompetencies)].hash;
