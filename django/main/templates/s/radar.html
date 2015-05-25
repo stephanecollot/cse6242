@@ -142,7 +142,7 @@ var mycfg = {
   //TranslateX: 70
 }
 
-d3.json("http://127.0.0.1:8000/userprofile/"+QueryString.id, function(error, data) {
+d3.json("/userprofile/"+QueryString.id, function(error, data) {
 
   max = 0
   for(comp in data.radar) {
