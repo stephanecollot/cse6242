@@ -1,5 +1,7 @@
-# cse6242
+# cse6242 Data Visual Analytics
+SearchingStack: Recruiting Tech Talent on Stack Overflow
 
+!(https://cloud.githubusercontent.com/assets/1184396/22908008/6abf82a4-f24c-11e6-8261-88616f2123b9.jpg)
 
 ## Installation
 Please download the data set here: 
